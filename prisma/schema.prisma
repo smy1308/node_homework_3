@@ -1,7 +1,4 @@
-// prisma/schema.prisma
-
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -20,7 +17,7 @@ model Users {
   updatedAt DateTime @updatedAt @map("updatedAt")
 
   UserInfos UserInfos?
-  Posts Posts[]
+  Posts     Posts[]
   Comments  Comments[]
 
   @@map("Users")
@@ -28,12 +25,13 @@ model Users {
 
 model Posts {
   postId    Int      @id @default(autoincrement()) @map("postId")
+  UserId    Int      @map("UserId")
   title     String   @map("title")
   content   String   @map("content") @db.Text
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
 
-  User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
+  User     Users      @relation(fields: [UserId], references: [userId], onDelete: Cascade)
   Comments Comments[]
 
   @@map("Posts")
@@ -41,6 +39,7 @@ model Posts {
 
 model UserInfos {
   userInfoId   Int      @id @default(autoincrement()) @map("userInfoId")
+  UserId       Int      @unique @map("UserId")
   name         String   @map("name")
   age          Int?     @map("age")
   gender       String   @map("gender")
@@ -55,6 +54,8 @@ model UserInfos {
 
 model Comments {
   commentId Int      @id @default(autoincrement()) @map("commentId")
+  PostId    Int      @map("PostId")
+  UserId    Int      @map("UserId")
   content   String   @map("content")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
