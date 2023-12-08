@@ -1,0 +1,19 @@
+{
+  "name": "node_homework_3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/smy1308/node_homework_3.git",
+  "author": "smy1308 <smy1308@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^5.7.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^5.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
