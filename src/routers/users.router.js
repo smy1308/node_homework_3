@@ -57,26 +57,23 @@ router.post('/sign-up', async (req, res, next) => {
 
 /** 로그인 API **/
 router.post('/sign-in', async (req, res, next) => {
-  const { email, password } = req.body;
-  const user = await prisma.users.findFirst({ where: { email } });
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.users.findFirst({ where: { email } });
 
-  if (!user) {
-    return res.status(401).json({ message: '존재하지 않는 이메일입니다.' });
+    if (!user) {
+      return res.status(401).json({ message: '존재하지 않는 이메일입니다.' });
+    }
+    // 입력받은 사용자의 비밀번호와 데이터베이스에 저장된 비밀번호를 비교
+    else if (!(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
+    }
+    // 로그인에 성공하면, 사용자의 userId를 바탕으로 세션을 생성
+    req.session.userId = user.userId;
+    return res.json({ message: '로그인 성공' });
+  } catch (err) {
+    next(err);
   }
-  // 입력받은 사용자의 비밀번호와 데이터베이스에 저장된 비밀번호를 비교
-  else if (!(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
-  }
-  // 로그인에 성공하면, 사용자의 userId를 바탕으로 토큰을 생성
-  const token = jwt.sign(
-    {
-      userId: user.userId,
-    },
-    'customized_secret_key'
-  );
-  // authotization 쿠키에 Berer 토큰 형식으로 JWT를 저장
-  res.cookie('authorization', `Bearer ${token}`);
-  return res.json({ message: '로그인 성공' });
 });
 
 /** 사용자 조회 API **/
