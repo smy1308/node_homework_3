@@ -21,14 +21,14 @@ export default async function authMiddleware(req, res, next) {
       throw new Error('토큰 사용자가 존재하지 않습니다.');
     }
 
-    // req.user에 사용자 정보를 저장합니다.
+    // req.user에 사용자 정보를 저장
     req.user = user;
 
     next();
   } catch (error) {
     res.clearCookie('authorization');
 
-    // 토큰이 만료되었거나, 조작되었을 때, 에러 메시지를 다르게 출력합니다.
+    // 토큰이 만료되었거나, 조작되었을 때, 에러 메시지를 다르게 출력
     switch (error.name) {
       case 'TokenExpiredError':
         return res.status(401).json({
@@ -42,6 +42,6 @@ export default async function authMiddleware(req, res, next) {
         return res.status(401).json({
           message: error.message ?? '비정상적인 요청입니다.',
         });
-    };
-  };
-};
+    }
+  }
+}

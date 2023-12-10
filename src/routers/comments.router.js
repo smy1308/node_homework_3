@@ -48,7 +48,7 @@ router.get('/posts/:postId/comments', async (req, res, next) => {
     },
   });
 
-  return res.status(200).json({ data: comments });
+  return res.json({ data: comments });
 });
 
 export default router;

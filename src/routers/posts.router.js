@@ -29,7 +29,7 @@ router.get('/posts', async (req, res, next) => {
       updatedAt: true,
     },
     orderBy: {
-      // 게시글을 최신순으로 정렬합니다.
+      // 게시글을 최신순으로 정렬
       createdAt: 'desc',
     },
   });
