@@ -3,10 +3,13 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../utils/prisma/index.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
 import { Prisma } from '@prisma/client';
+import { UsersController } from '../controllers/users.controller.js';
 
 const router = express.Router();
+const usersController = new UsersController();
 
 /** 회원가입 API **/
+//router.post('/sign-up', usersController.postUser)
 router.post('/sign-up', async (req, res, next) => {
   try {
     const { email, password, name, age, gender, profileImage } = req.body;
@@ -55,6 +58,7 @@ router.post('/sign-up', async (req, res, next) => {
 });
 
 /** 로그인 API **/
+//router.post('/sign-in', usersController.signUser)
 router.post('/sign-in', async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -76,6 +80,7 @@ router.post('/sign-in', async (req, res, next) => {
 });
 
 /** 사용자 조회 API **/
+//router.get('/users', authMiddleware, usersController.getUser)
 router.get('/users', authMiddleware, async (req, res, next) => {
   const { userId } = req.user;
 
@@ -101,6 +106,7 @@ router.get('/users', authMiddleware, async (req, res, next) => {
 });
 
 /** 사용자 정보 변경 API **/
+//router.patch('/users', authMiddleware, usersController.patchUser)
 router.patch('/users', authMiddleware, async (req, res, next) => {
   try {
     const { userId } = req.user;

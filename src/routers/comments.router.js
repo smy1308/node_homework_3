@@ -1,10 +1,13 @@
 import express from 'express';
 import authMiddleware from '../middlewares/auth.middleware.js';
 import { prisma } from '../utils/prisma/index.js';
+import { CommentsController } from '../controllers/comments.controller.js';
 
 const router = express.Router();
+const commentsController = new CommentsController();
 
 /** 댓글 생성 API **/
+// router.post('/posts/:postId/comments', authMiddleware, commentsController.createComment)
 router.post('/posts/:postId/comments', authMiddleware, async (req, res, next) => {
   const { postId } = req.params;
   const { userId } = req.user;
@@ -29,6 +32,7 @@ router.post('/posts/:postId/comments', authMiddleware, async (req, res, next) =>
 });
 
 /** 댓글 조회 API **/
+// router.post('/posts/:postId/comments', commentsController.getComments)
 router.get('/posts/:postId/comments', async (req, res, next) => {
   const { postId } = req.params;
 
